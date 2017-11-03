@@ -39,6 +39,10 @@
             this.outputKeyGeneration = new System.Windows.Forms.Label();
             this.outputEncryption = new System.Windows.Forms.Label();
             this.outputDigitalSignature = new System.Windows.Forms.Label();
+            this.outputFilePath = new System.Windows.Forms.TextBox();
+            this.outputKeyPath = new System.Windows.Forms.TextBox();
+            this.actionChoseFileToEncrypt = new System.Windows.Forms.Button();
+            this.actionChoseKeyFile = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -67,16 +71,17 @@
             // 
             // actionEncryptSymmetrical
             // 
-            this.actionEncryptSymmetrical.Location = new System.Drawing.Point(12, 122);
+            this.actionEncryptSymmetrical.Location = new System.Drawing.Point(12, 208);
             this.actionEncryptSymmetrical.Name = "actionEncryptSymmetrical";
             this.actionEncryptSymmetrical.Size = new System.Drawing.Size(153, 49);
             this.actionEncryptSymmetrical.TabIndex = 4;
             this.actionEncryptSymmetrical.Text = "Encrypt symmetrical";
             this.actionEncryptSymmetrical.UseVisualStyleBackColor = true;
+            this.actionEncryptSymmetrical.Click += new System.EventHandler(this.actionEncryptSymmetrical_Click);
             // 
             // actionEncryptAsymmetrical
             // 
-            this.actionEncryptAsymmetrical.Location = new System.Drawing.Point(171, 122);
+            this.actionEncryptAsymmetrical.Location = new System.Drawing.Point(176, 208);
             this.actionEncryptAsymmetrical.Name = "actionEncryptAsymmetrical";
             this.actionEncryptAsymmetrical.Size = new System.Drawing.Size(153, 49);
             this.actionEncryptAsymmetrical.TabIndex = 5;
@@ -85,7 +90,7 @@
             // 
             // actionCalculateFileHash
             // 
-            this.actionCalculateFileHash.Location = new System.Drawing.Point(12, 273);
+            this.actionCalculateFileHash.Location = new System.Drawing.Point(11, 351);
             this.actionCalculateFileHash.Name = "actionCalculateFileHash";
             this.actionCalculateFileHash.Size = new System.Drawing.Size(153, 49);
             this.actionCalculateFileHash.TabIndex = 6;
@@ -94,7 +99,7 @@
             // 
             // actionDigitalySign
             // 
-            this.actionDigitalySign.Location = new System.Drawing.Point(12, 218);
+            this.actionDigitalySign.Location = new System.Drawing.Point(11, 296);
             this.actionDigitalySign.Name = "actionDigitalySign";
             this.actionDigitalySign.Size = new System.Drawing.Size(153, 49);
             this.actionDigitalySign.TabIndex = 7;
@@ -103,7 +108,7 @@
             // 
             // actionCheckSignature
             // 
-            this.actionCheckSignature.Location = new System.Drawing.Point(171, 218);
+            this.actionCheckSignature.Location = new System.Drawing.Point(170, 296);
             this.actionCheckSignature.Name = "actionCheckSignature";
             this.actionCheckSignature.Size = new System.Drawing.Size(153, 49);
             this.actionCheckSignature.TabIndex = 8;
@@ -131,17 +136,57 @@
             // outputDigitalSignature
             // 
             this.outputDigitalSignature.AutoSize = true;
-            this.outputDigitalSignature.Location = new System.Drawing.Point(12, 198);
+            this.outputDigitalSignature.Location = new System.Drawing.Point(11, 276);
             this.outputDigitalSignature.Name = "outputDigitalSignature";
             this.outputDigitalSignature.Size = new System.Drawing.Size(117, 17);
             this.outputDigitalSignature.TabIndex = 11;
             this.outputDigitalSignature.Text = "Digital signatures";
+            // 
+            // outputFilePath
+            // 
+            this.outputFilePath.Enabled = false;
+            this.outputFilePath.Location = new System.Drawing.Point(15, 130);
+            this.outputFilePath.Name = "outputFilePath";
+            this.outputFilePath.Size = new System.Drawing.Size(241, 22);
+            this.outputFilePath.TabIndex = 12;
+            // 
+            // outputKeyPath
+            // 
+            this.outputKeyPath.Enabled = false;
+            this.outputKeyPath.Location = new System.Drawing.Point(15, 176);
+            this.outputKeyPath.Name = "outputKeyPath";
+            this.outputKeyPath.Size = new System.Drawing.Size(241, 22);
+            this.outputKeyPath.TabIndex = 13;
+            // 
+            // actionChoseFileToEncrypt
+            // 
+            this.actionChoseFileToEncrypt.Location = new System.Drawing.Point(262, 126);
+            this.actionChoseFileToEncrypt.Name = "actionChoseFileToEncrypt";
+            this.actionChoseFileToEncrypt.Size = new System.Drawing.Size(60, 30);
+            this.actionChoseFileToEncrypt.TabIndex = 14;
+            this.actionChoseFileToEncrypt.Text = "File..";
+            this.actionChoseFileToEncrypt.UseVisualStyleBackColor = true;
+            this.actionChoseFileToEncrypt.Click += new System.EventHandler(this.actionChoseFileToEncrypt_Click);
+            // 
+            // actionChoseKeyFile
+            // 
+            this.actionChoseKeyFile.Location = new System.Drawing.Point(262, 172);
+            this.actionChoseKeyFile.Name = "actionChoseKeyFile";
+            this.actionChoseKeyFile.Size = new System.Drawing.Size(60, 30);
+            this.actionChoseKeyFile.TabIndex = 15;
+            this.actionChoseKeyFile.Text = "Key..";
+            this.actionChoseKeyFile.UseVisualStyleBackColor = true;
+            this.actionChoseKeyFile.Click += new System.EventHandler(this.actionChoseKeyFile_Click);
             // 
             // FCryptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 415);
+            this.Controls.Add(this.actionChoseKeyFile);
+            this.Controls.Add(this.actionChoseFileToEncrypt);
+            this.Controls.Add(this.outputKeyPath);
+            this.Controls.Add(this.outputFilePath);
             this.Controls.Add(this.outputDigitalSignature);
             this.Controls.Add(this.outputEncryption);
             this.Controls.Add(this.outputKeyGeneration);
@@ -172,6 +217,10 @@
         private System.Windows.Forms.Label outputKeyGeneration;
         private System.Windows.Forms.Label outputEncryption;
         private System.Windows.Forms.Label outputDigitalSignature;
+        private System.Windows.Forms.TextBox outputFilePath;
+        private System.Windows.Forms.TextBox outputKeyPath;
+        private System.Windows.Forms.Button actionChoseFileToEncrypt;
+        private System.Windows.Forms.Button actionChoseKeyFile;
     }
 }
 

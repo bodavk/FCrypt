@@ -48,13 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncryptionAES.cs" />
     <Compile Include="FCryptForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FCryptForm.Designer.cs">
       <DependentUpon>FCryptForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileSaver.cs" />
+    <Compile Include="FileHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FCryptForm.resx">

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FCrypt
 {
-    class FileSaver
+    class FileHandler
     {
         /// <summary>
         /// This method writes string to a file
@@ -17,8 +17,16 @@ namespace FCrypt
         /// <param name="content">Content being written into a file</param>
         public void SaveContentInFile(string path, string filename, string content)
         {
-            StreamWriter file = new StreamWriter(path+"\\"+filename);
+            StreamWriter file = new StreamWriter(path + "\\" + filename);
             file.Write(content);
+            file.Close();
+        }
+
+        public string ReturnTextFromFile(string path)
+        {
+            StreamReader file = new StreamReader(path, Encoding.UTF8);
+            string fileContent = file.ReadToEnd();
+            return fileContent;
             file.Close();
         }
     }
