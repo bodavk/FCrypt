@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace FCrypt
 {
-    public partial class Form1 : Form
+    public partial class FCryptForm : Form
     {
-        public Form1()
+        public FCryptForm()
         {
             InitializeComponent();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
