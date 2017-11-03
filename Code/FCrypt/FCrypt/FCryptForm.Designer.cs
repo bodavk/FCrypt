@@ -53,6 +53,7 @@
             this.actionGenerateSymmetricKey.TabIndex = 2;
             this.actionGenerateSymmetricKey.Text = "Generate symmetric key";
             this.actionGenerateSymmetricKey.UseVisualStyleBackColor = true;
+            this.actionGenerateSymmetricKey.Click += new System.EventHandler(this.actionGenerateSymmetricKey_Click);
             // 
             // actionGenerateAsymmetricKeyPair
             // 
@@ -62,7 +63,7 @@
             this.actionGenerateAsymmetricKeyPair.TabIndex = 3;
             this.actionGenerateAsymmetricKeyPair.Text = "Generate aymmetric key pair";
             this.actionGenerateAsymmetricKeyPair.UseVisualStyleBackColor = true;
-            this.actionGenerateAsymmetricKeyPair.Click += new System.EventHandler(this.button2_Click);
+            this.actionGenerateAsymmetricKeyPair.Click += new System.EventHandler(this.actionGenerateAsymmetricKeyPair_Click);
             // 
             // actionEncryptSymmetrical
             // 
