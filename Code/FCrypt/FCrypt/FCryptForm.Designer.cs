@@ -43,6 +43,7 @@
             this.outputKeyPath = new System.Windows.Forms.TextBox();
             this.actionChoseFileToEncrypt = new System.Windows.Forms.Button();
             this.actionChoseKeyFile = new System.Windows.Forms.Button();
+            this.actionDecryptSymmetrical = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -90,7 +91,7 @@
             // 
             // actionCalculateFileHash
             // 
-            this.actionCalculateFileHash.Location = new System.Drawing.Point(11, 351);
+            this.actionCalculateFileHash.Location = new System.Drawing.Point(12, 390);
             this.actionCalculateFileHash.Name = "actionCalculateFileHash";
             this.actionCalculateFileHash.Size = new System.Drawing.Size(153, 49);
             this.actionCalculateFileHash.TabIndex = 6;
@@ -99,7 +100,7 @@
             // 
             // actionDigitalySign
             // 
-            this.actionDigitalySign.Location = new System.Drawing.Point(11, 296);
+            this.actionDigitalySign.Location = new System.Drawing.Point(12, 335);
             this.actionDigitalySign.Name = "actionDigitalySign";
             this.actionDigitalySign.Size = new System.Drawing.Size(153, 49);
             this.actionDigitalySign.TabIndex = 7;
@@ -108,7 +109,7 @@
             // 
             // actionCheckSignature
             // 
-            this.actionCheckSignature.Location = new System.Drawing.Point(170, 296);
+            this.actionCheckSignature.Location = new System.Drawing.Point(171, 335);
             this.actionCheckSignature.Name = "actionCheckSignature";
             this.actionCheckSignature.Size = new System.Drawing.Size(153, 49);
             this.actionCheckSignature.TabIndex = 8;
@@ -136,7 +137,7 @@
             // outputDigitalSignature
             // 
             this.outputDigitalSignature.AutoSize = true;
-            this.outputDigitalSignature.Location = new System.Drawing.Point(11, 276);
+            this.outputDigitalSignature.Location = new System.Drawing.Point(12, 315);
             this.outputDigitalSignature.Name = "outputDigitalSignature";
             this.outputDigitalSignature.Size = new System.Drawing.Size(117, 17);
             this.outputDigitalSignature.TabIndex = 11;
@@ -178,11 +179,21 @@
             this.actionChoseKeyFile.UseVisualStyleBackColor = true;
             this.actionChoseKeyFile.Click += new System.EventHandler(this.actionChoseKeyFile_Click);
             // 
+            // actionDecryptSymmetrical
+            // 
+            this.actionDecryptSymmetrical.Location = new System.Drawing.Point(12, 263);
+            this.actionDecryptSymmetrical.Name = "actionDecryptSymmetrical";
+            this.actionDecryptSymmetrical.Size = new System.Drawing.Size(153, 49);
+            this.actionDecryptSymmetrical.TabIndex = 16;
+            this.actionDecryptSymmetrical.Text = "Encrypt symmetrical";
+            this.actionDecryptSymmetrical.UseVisualStyleBackColor = true;
+            // 
             // FCryptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 415);
+            this.ClientSize = new System.Drawing.Size(341, 453);
+            this.Controls.Add(this.actionDecryptSymmetrical);
             this.Controls.Add(this.actionChoseKeyFile);
             this.Controls.Add(this.actionChoseFileToEncrypt);
             this.Controls.Add(this.outputKeyPath);
@@ -221,6 +232,7 @@
         private System.Windows.Forms.TextBox outputKeyPath;
         private System.Windows.Forms.Button actionChoseFileToEncrypt;
         private System.Windows.Forms.Button actionChoseKeyFile;
+        private System.Windows.Forms.Button actionDecryptSymmetrical;
     }
 }
 
