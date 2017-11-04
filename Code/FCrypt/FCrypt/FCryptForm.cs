@@ -12,6 +12,7 @@ namespace FCrypt
 {
     public partial class FCryptForm : Form
     {
+        #region variables
         //File controller objects
         OpenFileDialog openFileDialogModule;
         FolderBrowserDialog choseFolderDialogModule;
@@ -28,10 +29,13 @@ namespace FCrypt
         string pathForSaving;
 
         //Content encrypted/decrypted
-        string contentToEncrypt;
+        string contentToEncryptOrDecrypt;
         string encryptedContent;
+        string decryptedContent;
 
         EncryptionAES encryptorModuleAES;
+        DecryptionAES decryptorModuleAES;
+        #endregion
 
         public FCryptForm()
         {
@@ -40,8 +44,10 @@ namespace FCrypt
             choseFolderDialogModule = new FolderBrowserDialog();
             fileHandlingModule = new FileHandler();
             encryptorModuleAES = new EncryptionAES();
+            decryptorModuleAES = new DecryptionAES();
         }
 
+        #region Key generation
         private void actionGenerateSymmetricKey_Click(object sender, EventArgs e)
         {
             if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
@@ -67,14 +73,16 @@ namespace FCrypt
                 fileHandlingModule.SaveContentInFile(pathForSaving, "PublicKey.txt", generatedPublicKey);
             }
         }
+        #endregion
 
+        #region file choosing
         private void actionChoseFileToEncrypt_Click(object sender, EventArgs e)
         {
             if (openFileDialogModule.ShowDialog() == DialogResult.OK)
             {
                 string pathToFile = openFileDialogModule.FileName;
                 outputFilePath.Text = pathToFile;
-                contentToEncrypt = fileHandlingModule.ReturnTextFromFile(pathToFile);
+                contentToEncryptOrDecrypt = fileHandlingModule.ReturnTextFromFile(pathToFile);
             }
         }
 
@@ -87,7 +95,9 @@ namespace FCrypt
                 outputKeyPath.Text = pathToKeyFile;
             }
         }
+        #endregion
 
+        #region Encryption
         private void actionEncryptSymmetrical_Click(object sender, EventArgs e)
         {
             if (outputKeyPath.Text != "" && outputFilePath.Text != "")
@@ -96,11 +106,30 @@ namespace FCrypt
                 {
                     pathForSaving = choseFolderDialogModule.SelectedPath;
                     encryptorModuleAES.LoadKeyFromFile(inputSymmetricalKey);
-                    encryptedContent = encryptorModuleAES.EncryptWithAES(contentToEncrypt);
+                    encryptedContent = encryptorModuleAES.EncryptWithAES(contentToEncryptOrDecrypt);
                     fileHandlingModule.SaveContentInFile(pathForSaving, "encrypted.txt", encryptedContent);
                 }
 
             }
         }
+        #endregion
+
+        #region Decryption
+        private void actionDecryptSymmetrical_Click(object sender, EventArgs e)
+        {
+            if (outputKeyPath.Text != "" && outputFilePath.Text != "")
+            {
+                if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
+                {
+                    pathForSaving = choseFolderDialogModule.SelectedPath;
+                    decryptorModuleAES.LoadKeyFromFile(inputSymmetricalKey);
+                    decryptedContent = decryptorModuleAES.DecryptAES(contentToEncryptOrDecrypt);
+                    fileHandlingModule.SaveContentInFile(pathForSaving, "decrypted.txt", decryptedContent);
+                }
+            }
+        }
+        #endregion
+
+
     }
 }

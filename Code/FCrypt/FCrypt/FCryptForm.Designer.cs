@@ -185,8 +185,9 @@
             this.actionDecryptSymmetrical.Name = "actionDecryptSymmetrical";
             this.actionDecryptSymmetrical.Size = new System.Drawing.Size(153, 49);
             this.actionDecryptSymmetrical.TabIndex = 16;
-            this.actionDecryptSymmetrical.Text = "Encrypt symmetrical";
+            this.actionDecryptSymmetrical.Text = "Decrypt symmetrical";
             this.actionDecryptSymmetrical.UseVisualStyleBackColor = true;
+            this.actionDecryptSymmetrical.Click += new System.EventHandler(this.actionDecryptSymmetrical_Click);
             // 
             // FCryptForm
             // 

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DecryptionAES.cs" />
     <Compile Include="EncryptionAES.cs" />
     <Compile Include="FCryptForm.cs">
       <SubType>Form</SubType>

@@ -15,6 +15,7 @@ namespace FCrypt
         public EncryptionAES()
         {
             aesObject = Aes.Create();
+            //aesObject.Padding = PaddingMode.None;
         }
 
         public string ReturnKeyAsString()
@@ -33,11 +34,10 @@ namespace FCrypt
         }
 
         public string EncryptWithAES(string content)
-        {
+        {            
             //get IV as string so that it can be concatenated and saved together with text
             initialisationVector = aesObject.IV;
             string initialisationVectorString = Convert.ToBase64String(initialisationVector);
-            int blocksize = aesObject.BlockSize;
 
             byte[] encryptedBytes;
 
@@ -58,6 +58,7 @@ namespace FCrypt
             string encryptedContent = Convert.ToBase64String(encryptedBytes);
             string concatenatedContentIV = initialisationVectorString + encryptedContent;
             return concatenatedContentIV;
+
         }
     }
 }
