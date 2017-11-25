@@ -24,6 +24,12 @@ namespace FCrypt
             get;
         }
 
+        public AsymmetricCipherKeyPair LoadedKeyPair
+        {
+            get;
+        }
+
+
         public KeyGeneratorRSA(int keyLength)
         {
             GenerateKey(keyLength);
@@ -57,43 +63,12 @@ namespace FCrypt
             textWriter.Close();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// This method returns a private key parameter
-        /// </summary>
-        /// <returns></returns>
-        public AsymmetricKeyParameter ReturnPrivateKey ()
+        public void LoadKeyPairFromFile(string fileName)
         {
-            return keyPair.Private;
-            /* https://stackoverflow.com/questions/6531054/generate-public-private-key-pair-and-show-them-in-textbox-in-asp-net */
-        }
+            using (var reader = File.OpenText(fileName))
+                loadedKeyPair = (AsymmetricCipherKeyPair)new PemReader(reader).ReadObject();
 
-        /// <summary>
-        /// This method returns a public key paramater of a keypair
-        /// </summary>
-        /// <returns></returns>
-        public AsymmetricKeyParameter ReturnPublicKey()
-        {
-            return keyPair.Public;
         }
-
         
     }
 }

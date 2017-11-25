@@ -44,6 +44,7 @@
             this.actionChoseFileToEncrypt = new System.Windows.Forms.Button();
             this.actionChoseKeyFile = new System.Windows.Forms.Button();
             this.actionDecryptSymmetrical = new System.Windows.Forms.Button();
+            this.actionDecryptAsymmetrical = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -189,11 +190,21 @@
             this.actionDecryptSymmetrical.UseVisualStyleBackColor = true;
             this.actionDecryptSymmetrical.Click += new System.EventHandler(this.actionDecryptSymmetrical_Click);
             // 
+            // actionDecryptAsymmetrical
+            // 
+            this.actionDecryptAsymmetrical.Location = new System.Drawing.Point(176, 263);
+            this.actionDecryptAsymmetrical.Name = "actionDecryptAsymmetrical";
+            this.actionDecryptAsymmetrical.Size = new System.Drawing.Size(153, 49);
+            this.actionDecryptAsymmetrical.TabIndex = 17;
+            this.actionDecryptAsymmetrical.Text = "Decrypt asymmetrical";
+            this.actionDecryptAsymmetrical.UseVisualStyleBackColor = true;
+            // 
             // FCryptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 453);
+            this.Controls.Add(this.actionDecryptAsymmetrical);
             this.Controls.Add(this.actionDecryptSymmetrical);
             this.Controls.Add(this.actionChoseKeyFile);
             this.Controls.Add(this.actionChoseFileToEncrypt);
@@ -234,6 +245,7 @@
         private System.Windows.Forms.Button actionChoseFileToEncrypt;
         private System.Windows.Forms.Button actionChoseKeyFile;
         private System.Windows.Forms.Button actionDecryptSymmetrical;
+        private System.Windows.Forms.Button actionDecryptAsymmetrical;
     }
 }
 
