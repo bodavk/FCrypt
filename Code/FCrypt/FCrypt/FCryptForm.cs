@@ -20,8 +20,6 @@ namespace FCrypt
 
         //Keys
         string generatedSymmetricalKey;
-        string generatedPublicKey;
-        string generatedPrivateKey;
         string inputSymmetricalKey;
 
         //Paths to files
@@ -35,6 +33,7 @@ namespace FCrypt
 
         EncryptionAES encryptorModuleAES;
         DecryptionAES decryptorModuleAES;
+        KeyGeneratorRSA keyGeneratingModuleRSA;
         #endregion
 
         public FCryptForm()
@@ -45,6 +44,7 @@ namespace FCrypt
             fileHandlingModule = new FileHandler();
             encryptorModuleAES = new EncryptionAES();
             decryptorModuleAES = new DecryptionAES();
+            keyGeneratingModuleRSA = new KeyGeneratorRSA(2048);
         }
 
         #region Key generation
@@ -60,17 +60,15 @@ namespace FCrypt
             }
         }
 
-        //NOT IMPLEMENTED FULLY YET
         private void actionGenerateAsymmetricKeyPair_Click(object sender, EventArgs e)
         {
             if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
             {
                 pathForSaving = choseFolderDialogModule.SelectedPath;
-                //A method that generates keypair should be called here
-                generatedPrivateKey = "";
-                generatedPublicKey = "";
-                fileHandlingModule.SaveContentInFile(pathForSaving, "PrivateKey.txt", generatedPrivateKey);
-                fileHandlingModule.SaveContentInFile(pathForSaving, "PublicKey.txt", generatedPublicKey);
+                string fileNamePrivate = pathForSaving + "\\PrivateRSA";
+                string fileNamePublic = pathForSaving + "\\PublicRSA";
+                keyGeneratingModuleRSA.SavePrivateKeyToFile(fileNamePrivate);
+                keyGeneratingModuleRSA.SavePublicKeyToFile(fileNamePublic);
             }
         }
         #endregion
