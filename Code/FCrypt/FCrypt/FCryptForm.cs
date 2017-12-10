@@ -21,10 +21,12 @@ namespace FCrypt
         //Keys
         string generatedSymmetricalKey;
         string inputSymmetricalKey;
+        string pathToAssymetricalKey;
 
         //Paths to files
         string pathForOpening;
         string pathForSaving;
+        string pathToFile;
 
         //Content encrypted/decrypted
         string contentToEncryptOrDecrypt;
@@ -33,7 +35,7 @@ namespace FCrypt
 
         EncryptionAES encryptorModuleAES;
         DecryptionAES decryptorModuleAES;
-        KeyGeneratorRSA keyGeneratingModuleRSA;
+        ModuleRSA moduleRSA;
         #endregion
 
         public FCryptForm()
@@ -44,7 +46,7 @@ namespace FCrypt
             fileHandlingModule = new FileHandler();
             encryptorModuleAES = new EncryptionAES();
             decryptorModuleAES = new DecryptionAES();
-            keyGeneratingModuleRSA = new KeyGeneratorRSA(2048);
+            moduleRSA = new ModuleRSA(2048);
         }
 
         #region Key generation
@@ -67,8 +69,8 @@ namespace FCrypt
                 pathForSaving = choseFolderDialogModule.SelectedPath;
                 string fileNamePrivate = pathForSaving + "\\PrivateRSA";
                 string fileNamePublic = pathForSaving + "\\PublicRSA";
-                keyGeneratingModuleRSA.SavePrivateKeyToFile(fileNamePrivate);
-                keyGeneratingModuleRSA.SavePublicKeyToFile(fileNamePublic);
+                moduleRSA.SavePrivateKeyToFile(fileNamePrivate);
+                moduleRSA.SavePublicKeyToFile(fileNamePublic);
             }
         }
         #endregion
@@ -78,7 +80,7 @@ namespace FCrypt
         {
             if (openFileDialogModule.ShowDialog() == DialogResult.OK)
             {
-                string pathToFile = openFileDialogModule.FileName;
+                pathToFile = openFileDialogModule.FileName;
                 outputFilePath.Text = pathToFile;
                 contentToEncryptOrDecrypt = fileHandlingModule.ReturnTextFromFile(pathToFile);
             }
@@ -90,6 +92,7 @@ namespace FCrypt
             {
                 string pathToKeyFile = openFileDialogModule.FileName;
                 inputSymmetricalKey = fileHandlingModule.ReturnTextFromFile(pathToKeyFile);
+                pathToAssymetricalKey = pathToKeyFile;
                 outputKeyPath.Text = pathToKeyFile;
             }
         }
@@ -126,8 +129,35 @@ namespace FCrypt
                 }
             }
         }
+
         #endregion
 
+        private void actionEncryptAsymmetrical_Click(object sender, EventArgs e)
+        {
+            if (outputKeyPath.Text != "" && outputFilePath.Text != "")
+            {
+                if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
+                {
+                    pathForSaving = choseFolderDialogModule.SelectedPath;
+                    //Here we call a function to which we specify keyfile address 
+                    encryptedContent = moduleRSA.LoadKeyAndEncrypt(pathToAssymetricalKey, pathToFile);
+                    fileHandlingModule.SaveContentInFile(pathForSaving, "encryptedASYM.txt", encryptedContent);
+                }
+            }
+        }
 
+        private void actionDecryptAsymmetrical_Click(object sender, EventArgs e)
+        {
+            if (outputKeyPath.Text != "" && outputFilePath.Text != "")
+            {
+                if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
+                {
+                    pathForSaving = choseFolderDialogModule.SelectedPath;
+                    //Here we call a function to which we specify keyfile address 
+                    decryptedContent = moduleRSA.LoadKeyAndDecrypt(pathToAssymetricalKey, pathToFile);
+                    fileHandlingModule.SaveContentInFile(pathForSaving, "decryptedASYM.txt", decryptedContent);
+                }
+            }
+        }
     }
 }

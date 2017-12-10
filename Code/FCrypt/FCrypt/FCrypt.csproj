@@ -49,9 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DecryptionAES.cs" />
-    <Compile Include="DecryptionRSA.cs" />
     <Compile Include="EncryptionAES.cs" />
-    <Compile Include="EncryptionRSA.cs" />
     <Compile Include="FCryptForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,7 +57,7 @@
       <DependentUpon>FCryptForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FileHandler.cs" />
-    <Compile Include="KeyGeneratorRSA.cs" />
+    <Compile Include="ModuleRSA.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FCryptForm.resx">

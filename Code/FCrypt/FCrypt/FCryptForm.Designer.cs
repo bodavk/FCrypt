@@ -89,6 +89,7 @@
             this.actionEncryptAsymmetrical.TabIndex = 5;
             this.actionEncryptAsymmetrical.Text = "Encrypt asymmetrical";
             this.actionEncryptAsymmetrical.UseVisualStyleBackColor = true;
+            this.actionEncryptAsymmetrical.Click += new System.EventHandler(this.actionEncryptAsymmetrical_Click);
             // 
             // actionCalculateFileHash
             // 
@@ -198,6 +199,7 @@
             this.actionDecryptAsymmetrical.TabIndex = 17;
             this.actionDecryptAsymmetrical.Text = "Decrypt asymmetrical";
             this.actionDecryptAsymmetrical.UseVisualStyleBackColor = true;
+            this.actionDecryptAsymmetrical.Click += new System.EventHandler(this.actionDecryptAsymmetrical_Click);
             // 
             // FCryptForm
             // 
