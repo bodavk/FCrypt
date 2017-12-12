@@ -22,6 +22,7 @@ namespace FCrypt
             file.Close();
         }
 
+
         public string ReturnTextFromFile(string path)
         {
             StreamReader file = new StreamReader(path, Encoding.UTF8);

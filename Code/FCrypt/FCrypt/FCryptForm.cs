@@ -46,7 +46,7 @@ namespace FCrypt
             fileHandlingModule = new FileHandler();
             encryptorModuleAES = new EncryptionAES();
             decryptorModuleAES = new DecryptionAES();
-            moduleRSA = new ModuleRSA(2048);
+            moduleRSA = new ModuleRSA();
         }
 
         #region Key generation
@@ -69,8 +69,7 @@ namespace FCrypt
                 pathForSaving = choseFolderDialogModule.SelectedPath;
                 string fileNamePrivate = pathForSaving + "\\PrivateRSA";
                 string fileNamePublic = pathForSaving + "\\PublicRSA";
-                moduleRSA.SavePrivateKeyToFile(fileNamePrivate);
-                moduleRSA.SavePublicKeyToFile(fileNamePublic);
+                moduleRSA.SaveKeyXMLString(pathForSaving);
             }
         }
         #endregion
@@ -139,9 +138,10 @@ namespace FCrypt
                 if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
                 {
                     pathForSaving = choseFolderDialogModule.SelectedPath;
-                    //Here we call a function to which we specify keyfile address 
-                    encryptedContent = moduleRSA.LoadKeyAndEncrypt(pathToAssymetricalKey, pathToFile);
-                    fileHandlingModule.SaveContentInFile(pathForSaving, "encryptedASYM.txt", encryptedContent);
+                    string loadedXmlRsaKeyString = fileHandlingModule.ReturnTextFromFile(pathToAssymetricalKey);
+                    string plainText = fileHandlingModule.ReturnTextFromFile(pathToFile);
+                    string cipherText = moduleRSA.Encrypt(plainText, loadedXmlRsaKeyString);
+                    fileHandlingModule.SaveContentInFile(pathForSaving, "encryptedASYM.txt", cipherText);
                 }
             }
         }
@@ -153,9 +153,10 @@ namespace FCrypt
                 if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
                 {
                     pathForSaving = choseFolderDialogModule.SelectedPath;
-                    //Here we call a function to which we specify keyfile address 
-                    decryptedContent = moduleRSA.LoadKeyAndDecrypt(pathToAssymetricalKey, pathToFile);
-                    fileHandlingModule.SaveContentInFile(pathForSaving, "decryptedASYM.txt", decryptedContent);
+                    string loadedXmlRsaKeyString = fileHandlingModule.ReturnTextFromFile(pathToAssymetricalKey);
+                    string cipherText = fileHandlingModule.ReturnTextFromFile(pathToFile);
+                    string plainText = moduleRSA.Decrypt(cipherText, loadedXmlRsaKeyString);
+                    fileHandlingModule.SaveContentInFile(pathForSaving, "decryptedASYM.txt", plainText);
                 }
             }
         }

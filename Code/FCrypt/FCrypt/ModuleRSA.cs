@@ -19,113 +19,58 @@ namespace FCrypt
 {
     class ModuleRSA
     {
-        private AsymmetricCipherKeyPair keyPair;
-        private RsaKeyParameters loadedKeyPair;
-        private AsymmetricCipherKeyPair loadedKeyPairDecryption;
+        private static RSACryptoServiceProvider cspRSA;
+        private static RSAParameters publicKey;
+        private static RSAParameters privateKey;
+        private static bool _optimalAsymmetricEncryptionPadding = false;
 
-        public AsymmetricCipherKeyPair KeyPair
+
+        public void SaveKeyXMLString(string filename)
         {
-            get;
+            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+            TextWriter writer = new StreamWriter(filename + "\\PublicRSA");
+            string publicKey = RSA.ToXmlString(false);
+            writer.Write(publicKey);
+            writer.Close();
+
+            writer = new StreamWriter(filename + "\\PrivateRSA");
+            string privateKey = RSA.ToXmlString(true);
+            writer.Write(privateKey);
+            writer.Close();
         }
 
-        public AsymmetricCipherKeyPair LoadedKeyPair
-        {
-            get;
-        }
 
-
-        public ModuleRSA(int keyLength)
+        public string Encrypt(string plainText, string publicKeyXml)
         {
-            GenerateKey(keyLength);
-        }
-
-        /// <summary>
-        /// This method generates a random new pair of keys
-        /// </summary>
-        /// <param name="keyLength"></param>
-        private void GenerateKey(int keyLength)
-        {
-            var r = new RsaKeyPairGenerator();
-            r.Init(new KeyGenerationParameters(new SecureRandom(), keyLength));
-            keyPair = r.GenerateKeyPair();
-        }
-        
-        public void SavePublicKeyToFile(string fileName)
-        {
-            var textWriter = new StreamWriter(fileName);
-            var pemWriter = new PemWriter(textWriter);
-            pemWriter.WriteObject(keyPair.Public);
-            pemWriter.Writer.Flush();
-            textWriter.Close();
-        }
-        public void SavePrivateKeyToFile(string fileName)
-        {
-            var textWriter = new StreamWriter(fileName);
-            var pemWriter = new PemWriter(textWriter);
-            pemWriter.WriteObject(keyPair.Private);
-            pemWriter.Writer.Flush();
-            textWriter.Close();
-        }
-
-        public string LoadKeyAndEncrypt(string keyFileName, string fileName)
-        {
-            using (var reader = File.OpenText(keyFileName))
-                loadedKeyPair = (RsaKeyParameters)new PemReader(reader).ReadObject();
-
-            StreamReader file = new StreamReader(fileName, Encoding.UTF8);
-            string fileContent = file.ReadToEnd();
-            file.Close();
-            byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(fileContent);
-            var encryptEngine = new Pkcs1Encoding(new RsaEngine());
-            encryptEngine.Init(true, loadedKeyPair);
-
-            int length = bytesToEncrypt.Length;
-            int blockSize = encryptEngine.GetInputBlockSize();
-            List<byte> cipherTextBytes = new List<byte>();
-            for (int chunkPosition = 0;
-                chunkPosition < length;
-                chunkPosition += blockSize)
+            string encryptedString;
+            byte[] dataByteArray = Encoding.UTF8.GetBytes(plainText);
+            using (var provider = new RSACryptoServiceProvider(2048))
             {
-                int chunkSize = Math.Min(blockSize, length - chunkPosition);
-                cipherTextBytes.AddRange(encryptEngine.ProcessBlock(
-                    bytesToEncrypt, chunkPosition, chunkSize
-                ));
+                provider.FromXmlString(publicKeyXml);
+                byte[] encryptedData = provider.Encrypt(dataByteArray, true);
+                encryptedString = Convert.ToBase64String(encryptedData);
+                return encryptedString;
             }
-
-            var encrypted = Encoding.UTF8.GetString(cipherTextBytes.ToArray());
-            return encrypted;
         }
 
-        public string LoadKeyAndDecrypt(string keyFileName, string fileName)
+
+        public string Decrypt(string cipherText, string publicAndPrivateKeyXml)
         {
-            using (var reader = File.OpenText(keyFileName))
-                loadedKeyPairDecryption = (AsymmetricCipherKeyPair) new PemReader(reader).ReadObject();
-
-            StreamReader file = new StreamReader(fileName, Encoding.UTF8);
-            string fileContent = file.ReadToEnd();
-            file.Close();
-            byte[] bytesToDecrypt = Encoding.UTF8.GetBytes(fileContent);
-            var decryptEngine = new Pkcs1Encoding(new RsaEngine());
-            decryptEngine.Init(false, loadedKeyPairDecryption.Private);
-
-            int length = bytesToDecrypt.Length;
-            int blockSize = decryptEngine.GetInputBlockSize();
-            List<byte> plainTextBytes = new List<byte>();
-            for (int chunkPosition = 0;
-                chunkPosition < length;
-                chunkPosition += blockSize)
+            string plainTextString;
+            byte[] dataByteArray = Convert.FromBase64String(cipherText);
+            plainTextString = Convert.ToBase64String(dataByteArray);
+            using (var provider = new RSACryptoServiceProvider(2048))
             {
-                int chunkSize = Math.Min(blockSize, length - chunkPosition);
-                plainTextBytes.AddRange(decryptEngine.ProcessBlock(
-                    bytesToDecrypt, chunkPosition, chunkSize
-                ));
+                provider.FromXmlString(publicAndPrivateKeyXml);
+                byte[] decryptedData = provider.Decrypt(dataByteArray, true);
+                plainTextString = Convert.ToBase64String(decryptedData);
+                byte[] bytes = Convert.FromBase64String(plainTextString);
+                plainTextString = Encoding.UTF8.GetString(bytes);
+                return plainTextString;
             }
-            
-            var decrypted = Encoding.UTF8.GetString(plainTextBytes.ToArray());
-            return decrypted;
         }
 
-
+ 
 
     }
 }
