@@ -45,6 +45,10 @@
             this.actionChoseKeyFile = new System.Windows.Forms.Button();
             this.actionDecryptSymmetrical = new System.Windows.Forms.Button();
             this.actionDecryptAsymmetrical = new System.Windows.Forms.Button();
+            this.outputHashedValue = new System.Windows.Forms.Label();
+            this.actionChoseSignatureFile = new System.Windows.Forms.Button();
+            this.outputSignaturePath = new System.Windows.Forms.TextBox();
+            this.outputIsVerified = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -73,7 +77,7 @@
             // 
             // actionEncryptSymmetrical
             // 
-            this.actionEncryptSymmetrical.Location = new System.Drawing.Point(12, 208);
+            this.actionEncryptSymmetrical.Location = new System.Drawing.Point(11, 208);
             this.actionEncryptSymmetrical.Name = "actionEncryptSymmetrical";
             this.actionEncryptSymmetrical.Size = new System.Drawing.Size(153, 49);
             this.actionEncryptSymmetrical.TabIndex = 4;
@@ -93,30 +97,33 @@
             // 
             // actionCalculateFileHash
             // 
-            this.actionCalculateFileHash.Location = new System.Drawing.Point(12, 390);
+            this.actionCalculateFileHash.Location = new System.Drawing.Point(11, 336);
             this.actionCalculateFileHash.Name = "actionCalculateFileHash";
             this.actionCalculateFileHash.Size = new System.Drawing.Size(153, 49);
             this.actionCalculateFileHash.TabIndex = 6;
             this.actionCalculateFileHash.Text = "Calculate file hash";
             this.actionCalculateFileHash.UseVisualStyleBackColor = true;
+            this.actionCalculateFileHash.Click += new System.EventHandler(this.actionCalculateFileHash_Click);
             // 
             // actionDigitalySign
             // 
-            this.actionDigitalySign.Location = new System.Drawing.Point(12, 335);
+            this.actionDigitalySign.Location = new System.Drawing.Point(176, 336);
             this.actionDigitalySign.Name = "actionDigitalySign";
             this.actionDigitalySign.Size = new System.Drawing.Size(153, 49);
             this.actionDigitalySign.TabIndex = 7;
             this.actionDigitalySign.Text = "Digitaly sign the file";
             this.actionDigitalySign.UseVisualStyleBackColor = true;
+            this.actionDigitalySign.Click += new System.EventHandler(this.actionDigitalySign_Click);
             // 
             // actionCheckSignature
             // 
-            this.actionCheckSignature.Location = new System.Drawing.Point(171, 335);
+            this.actionCheckSignature.Location = new System.Drawing.Point(11, 476);
             this.actionCheckSignature.Name = "actionCheckSignature";
             this.actionCheckSignature.Size = new System.Drawing.Size(153, 49);
             this.actionCheckSignature.TabIndex = 8;
             this.actionCheckSignature.Text = "Check the signature";
             this.actionCheckSignature.UseVisualStyleBackColor = true;
+            this.actionCheckSignature.Click += new System.EventHandler(this.actionCheckSignature_Click);
             // 
             // outputKeyGeneration
             // 
@@ -183,7 +190,7 @@
             // 
             // actionDecryptSymmetrical
             // 
-            this.actionDecryptSymmetrical.Location = new System.Drawing.Point(12, 263);
+            this.actionDecryptSymmetrical.Location = new System.Drawing.Point(11, 263);
             this.actionDecryptSymmetrical.Name = "actionDecryptSymmetrical";
             this.actionDecryptSymmetrical.Size = new System.Drawing.Size(153, 49);
             this.actionDecryptSymmetrical.TabIndex = 16;
@@ -201,11 +208,51 @@
             this.actionDecryptAsymmetrical.UseVisualStyleBackColor = true;
             this.actionDecryptAsymmetrical.Click += new System.EventHandler(this.actionDecryptAsymmetrical_Click);
             // 
+            // outputHashedValue
+            // 
+            this.outputHashedValue.AutoSize = true;
+            this.outputHashedValue.Location = new System.Drawing.Point(12, 388);
+            this.outputHashedValue.MaximumSize = new System.Drawing.Size(300, 0);
+            this.outputHashedValue.Name = "outputHashedValue";
+            this.outputHashedValue.Size = new System.Drawing.Size(0, 17);
+            this.outputHashedValue.TabIndex = 18;
+            // 
+            // actionChoseSignatureFile
+            // 
+            this.actionChoseSignatureFile.Location = new System.Drawing.Point(238, 444);
+            this.actionChoseSignatureFile.Name = "actionChoseSignatureFile";
+            this.actionChoseSignatureFile.Size = new System.Drawing.Size(91, 30);
+            this.actionChoseSignatureFile.TabIndex = 20;
+            this.actionChoseSignatureFile.Text = "Signature";
+            this.actionChoseSignatureFile.UseVisualStyleBackColor = true;
+            this.actionChoseSignatureFile.Click += new System.EventHandler(this.actionChoseSignatureFile_Click);
+            // 
+            // outputSignaturePath
+            // 
+            this.outputSignaturePath.Enabled = false;
+            this.outputSignaturePath.Location = new System.Drawing.Point(11, 448);
+            this.outputSignaturePath.Name = "outputSignaturePath";
+            this.outputSignaturePath.Size = new System.Drawing.Size(220, 22);
+            this.outputSignaturePath.TabIndex = 21;
+            // 
+            // outputIsVerified
+            // 
+            this.outputIsVerified.AutoSize = true;
+            this.outputIsVerified.Location = new System.Drawing.Point(188, 492);
+            this.outputIsVerified.Name = "outputIsVerified";
+            this.outputIsVerified.Size = new System.Drawing.Size(120, 17);
+            this.outputIsVerified.TabIndex = 22;
+            this.outputIsVerified.Text = "Verification status";
+            // 
             // FCryptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 453);
+            this.ClientSize = new System.Drawing.Size(341, 542);
+            this.Controls.Add(this.outputIsVerified);
+            this.Controls.Add(this.outputSignaturePath);
+            this.Controls.Add(this.actionChoseSignatureFile);
+            this.Controls.Add(this.outputHashedValue);
             this.Controls.Add(this.actionDecryptAsymmetrical);
             this.Controls.Add(this.actionDecryptSymmetrical);
             this.Controls.Add(this.actionChoseKeyFile);
@@ -248,6 +295,10 @@
         private System.Windows.Forms.Button actionChoseKeyFile;
         private System.Windows.Forms.Button actionDecryptSymmetrical;
         private System.Windows.Forms.Button actionDecryptAsymmetrical;
+        private System.Windows.Forms.Label outputHashedValue;
+        private System.Windows.Forms.Button actionChoseSignatureFile;
+        private System.Windows.Forms.TextBox outputSignaturePath;
+        private System.Windows.Forms.Label outputIsVerified;
     }
 }
 

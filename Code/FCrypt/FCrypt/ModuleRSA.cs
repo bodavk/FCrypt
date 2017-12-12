@@ -70,6 +70,51 @@ namespace FCrypt
             }
         }
 
+        public string ReturnHash(string fileContent)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(fileContent);
+            byte[] dataHashed;
+            string hashedContentString;
+            using (SHA256 shaHash = SHA256.Create())
+            {
+                dataHashed = shaHash.ComputeHash(data);   
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < dataHashed.Length; i++)
+            {
+                stringBuilder.Append(dataHashed[i].ToString("x2"));
+            }
+            hashedContentString = stringBuilder.ToString();
+            return hashedContentString;
+        }
+
+        public string DigitalySign(string plainText, string publicAndPrivateKeyXml)
+        {
+            string encryptedString;
+            byte[] dataByteArray = Encoding.UTF8.GetBytes(plainText);
+            using (var provider = new RSACryptoServiceProvider(2048))
+            {
+                provider.FromXmlString(publicAndPrivateKeyXml);
+                byte[] encryptedData = provider.SignData(dataByteArray, HashAlgorithm.Create("SHA256"));
+                encryptedString = Convert.ToBase64String(encryptedData);
+                return encryptedString;
+            }
+        }
+
+        public bool VerifySignature(string plainText, string signatureText, string publicKeyXml)
+        {
+            bool isVerified;
+            byte[] dataByteArraySignature = Convert.FromBase64String(signatureText);
+            byte[] dataByteArrayPlainText = Encoding.UTF8.GetBytes(plainText);
+            using (var provider = new RSACryptoServiceProvider(2048))
+            {
+                provider.FromXmlString(publicKeyXml);
+                object halg = HashAlgorithm.Create("SHA256");
+                isVerified = provider.VerifyData(dataByteArrayPlainText, halg, dataByteArraySignature);
+                return isVerified;
+            }
+        }
+
  
 
     }

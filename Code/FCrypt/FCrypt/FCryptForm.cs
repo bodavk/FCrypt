@@ -23,15 +23,18 @@ namespace FCrypt
         string inputSymmetricalKey;
         string pathToAssymetricalKey;
 
+
         //Paths to files
         string pathForOpening;
         string pathForSaving;
         string pathToFile;
+        string pathToSignatureFile;
 
         //Content encrypted/decrypted
         string contentToEncryptOrDecrypt;
         string encryptedContent;
         string decryptedContent;
+        string signatureFileContent;
 
         EncryptionAES encryptorModuleAES;
         DecryptionAES decryptorModuleAES;
@@ -93,6 +96,14 @@ namespace FCrypt
                 inputSymmetricalKey = fileHandlingModule.ReturnTextFromFile(pathToKeyFile);
                 pathToAssymetricalKey = pathToKeyFile;
                 outputKeyPath.Text = pathToKeyFile;
+            }
+        }
+        private void actionChoseSignatureFile_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogModule.ShowDialog() == DialogResult.OK)
+            {
+                pathToSignatureFile = openFileDialogModule.FileName;
+                outputSignaturePath.Text = pathToSignatureFile;
             }
         }
         #endregion
@@ -157,6 +168,56 @@ namespace FCrypt
                     string cipherText = fileHandlingModule.ReturnTextFromFile(pathToFile);
                     string plainText = moduleRSA.Decrypt(cipherText, loadedXmlRsaKeyString);
                     fileHandlingModule.SaveContentInFile(pathForSaving, "decryptedASYM.txt", plainText);
+                }
+            }
+        }
+
+        private void actionCalculateFileHash_Click(object sender, EventArgs e)
+        {
+            if (outputFilePath.Text != "")
+            {
+                if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
+                {
+                    pathForSaving = choseFolderDialogModule.SelectedPath;
+                    string fileContent = fileHandlingModule.ReturnTextFromFile(pathToFile);
+                    string calculatedFileHash = moduleRSA.ReturnHash(fileContent);
+                    fileHandlingModule.SaveContentInFile(pathForSaving, "hashedValue.txt", calculatedFileHash);
+                    outputHashedValue.Text = calculatedFileHash;
+                }
+            }
+        }
+
+        private void actionDigitalySign_Click(object sender, EventArgs e)
+        {
+            if (outputKeyPath.Text != "" && outputFilePath.Text != "")
+            {
+                if (choseFolderDialogModule.ShowDialog() == DialogResult.OK)
+                {
+                    pathForSaving = choseFolderDialogModule.SelectedPath;
+                    string loadedXmlRsaKeyString = fileHandlingModule.ReturnTextFromFile(pathToAssymetricalKey);
+                    string plainText = fileHandlingModule.ReturnTextFromFile(pathToFile);
+                    string cipherText = moduleRSA.DigitalySign(plainText, loadedXmlRsaKeyString);
+                    fileHandlingModule.SaveContentInFile(pathForSaving, "signedFile.txt", cipherText);
+                }
+            }
+        }
+
+        private void actionCheckSignature_Click(object sender, EventArgs e)
+        {
+            if (outputKeyPath.Text != "" && outputFilePath.Text != "" && outputSignaturePath.Text != "")
+            {
+                pathForSaving = choseFolderDialogModule.SelectedPath;
+                string loadedXmlRsaKeyString = fileHandlingModule.ReturnTextFromFile(pathToAssymetricalKey);
+                string plainText = fileHandlingModule.ReturnTextFromFile(pathToFile);
+                string signatureText = fileHandlingModule.ReturnTextFromFile(pathToSignatureFile);
+                bool isVerified = moduleRSA.VerifySignature(plainText, signatureText, loadedXmlRsaKeyString);
+                if (isVerified)
+                {
+                    outputIsVerified.Text = "File intact";
+                }
+                else
+                {
+                    outputIsVerified.Text = "File modified";
                 }
             }
         }
